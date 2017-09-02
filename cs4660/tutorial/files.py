@@ -1,5 +1,5 @@
 """Files tests simple file read related operations"""
-
+from io import open
 class SimpleFile(object):
     """SimpleFile tests using file read api to do some simple math"""
     def __init__(self, file_path):
@@ -8,6 +8,8 @@ class SimpleFile(object):
         TODO: reads the file by path and parse content into two
         dimension array (numbers)
         """
+        f = open(file_path, encoding='utf-8')
+        text = f.read()
 
     def get_mean(self, line_number):
         """
