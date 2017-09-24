@@ -106,11 +106,16 @@ class AdjacencyList(object):
     def remove_node(self, node):
         if node in self.adjacency_list:
             del self.adjacency_list[node]
-            """
-            TODO: remove existing edges that connect to deleted node
-            """
             for nodes, edges in self.adjacency_list.items():
+                    """SINGLE LINE SOLUTION"""
                     self.adjacency_list[nodes] = [edge for edge in edges if edge.to_node != node]
+                    """ LONGER SOLUTION
+                    newlist = []
+                    for edge in edges:
+                        if edge.to_node != node:
+                            newlist.append(edge)
+                    self.adjacency_list[nodes] = newlist
+                    """
             return True
         else: return False
 
