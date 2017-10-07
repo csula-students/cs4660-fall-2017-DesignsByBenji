@@ -143,21 +143,37 @@ class AdjacencyMatrix(object):
         self.nodes = []
 
     def adjacent(self, node_1, node_2):
+        index1 = self.__get_node_index(node_1)
+        index2 = self.__get_node_index(node_2)
+        if self.adjacency_matrix[index1][index2] != 0:
+            return True
+        """
         for edge in self.adjacency_matrix[self.__get_node_index(node_1)]:
             if edge.to_node == node_2:
                 return True
+        """
         return False
 
     def neighbors(self, node):
         results = []
-        for edge in self.adjacency_matrix[self.__get_node_index(node)]:
-            results.append(edge.to_node)
+        index = 0
+        for element in self.adjacency_matrix[self.__get_node_index(node)]:
+            if element != 0:
+                results.append(self.nodes[index])
+            index+=1
         return results
 
     def add_node(self, node):
         if node not in self.nodes:
             self.nodes.append(node)
+            totalNodes = len(self.nodes)
+            index = self.__get_node_index(node)
             self.adjacency_matrix.append([])
+            for element in self.adjacency_matrix:
+                size = len(element)
+                if size < totalNodes:
+                    for i in range(totalNodes-size):
+                        element.append(0)
             return True
         else: return False
 
@@ -173,19 +189,34 @@ class AdjacencyMatrix(object):
           
 
     def add_edge(self, edge):
+        destination_index = self.__get_node_index(edge.to_node)
         neighbors = self.adjacency_matrix[self.__get_node_index(edge.from_node)]
+        if neighbors[destination_index] != edge.weight:
+            neighbors[destination_index] = edge.weight
+            return True
+        else:
+            return False
+        """
         if edge not in neighbors:
             neighbors.append(edge)
             return True
         else: return False
-        
+        """
 
     def remove_edge(self, edge):
+        """
         neighbors = self.adjacency_matrix[self.__get_node_index(edge.from_node)]
         if edge in neighbors:
             neighbors.remove(edge)
             return True
         else: return False
+        """
+        from_index = self.__get_node_index(edge.from_node)
+        to_index = self.__get_node_index(edge.to_node)
+        if(self.adjacency_matrix[from_index][to_index] != 0):
+            self.adjacency_matrix[from_index][to_index] = 0
+            return True
+        return False
 
     def __get_node_index(self, node):
         """helper method to find node index"""
