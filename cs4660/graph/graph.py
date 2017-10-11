@@ -213,8 +213,8 @@ class AdjacencyMatrix(object):
             return self.nodes.index(node)
 
     def distance(self, fromNode, toNode):
-        index1 = self.__get_node_index(node_1)
-        index2 = self.__get_node_index(node_2)
+        index1 = self.__get_node_index(fromNode)
+        index2 = self.__get_node_index(toNode)
         if self.adjacency_matrix[index1][index2] != 0:
             return self.adjacency_matrix[index1][index2]
         return False
