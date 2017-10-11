@@ -133,6 +133,12 @@ class AdjacencyList(object):
             return True
         else: return False
 
+    def distance(self, fromNode, toNode):
+        for edge in self.adjacency_list[fromNode]:
+            if edge.to_node == toNode:
+                return edge.weight
+        return False
+
 class AdjacencyMatrix(object):
     def __init__(self):
         # adjacency_matrix should be a two dimensions array of numbers that
@@ -147,11 +153,6 @@ class AdjacencyMatrix(object):
         index2 = self.__get_node_index(node_2)
         if self.adjacency_matrix[index1][index2] != 0:
             return True
-        """
-        for edge in self.adjacency_matrix[self.__get_node_index(node_1)]:
-            if edge.to_node == node_2:
-                return True
-        """
         return False
 
     def neighbors(self, node):
@@ -186,7 +187,7 @@ class AdjacencyMatrix(object):
         """
         TODO: remove edges that attach to deleted node
         """
-          
+
 
     def add_edge(self, edge):
         destination_index = self.__get_node_index(edge.to_node)
@@ -196,21 +197,9 @@ class AdjacencyMatrix(object):
             return True
         else:
             return False
-        """
-        if edge not in neighbors:
-            neighbors.append(edge)
-            return True
-        else: return False
-        """
 
     def remove_edge(self, edge):
-        """
-        neighbors = self.adjacency_matrix[self.__get_node_index(edge.from_node)]
-        if edge in neighbors:
-            neighbors.remove(edge)
-            return True
-        else: return False
-        """
+        
         from_index = self.__get_node_index(edge.from_node)
         to_index = self.__get_node_index(edge.to_node)
         if(self.adjacency_matrix[from_index][to_index] != 0):
@@ -222,6 +211,13 @@ class AdjacencyMatrix(object):
         """helper method to find node index"""
         if node in self.nodes:
             return self.nodes.index(node)
+
+    def distance(self, fromNode, toNode):
+        index1 = self.__get_node_index(node_1)
+        index2 = self.__get_node_index(node_2)
+        if self.adjacency_matrix[index1][index2] != 0:
+            return self.adjacency_matrix[index1][index2]
+        return False
 
 class ObjectOriented(object):
     """ObjectOriented defines the edges and nodes as both list"""
@@ -270,3 +266,8 @@ class ObjectOriented(object):
             return True
         else: return False
 
+    def distance(self, fromNode, toNode):
+        for edge in self.edges:
+            if edge.from_node == fromNode and edge.to_node == toNode:
+                return edge.weight
+        return False
