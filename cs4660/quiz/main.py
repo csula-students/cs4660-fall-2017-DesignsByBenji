@@ -243,7 +243,7 @@ if __name__ == "__main__":
     empty_room = get_state('7f3dc077574c013d98b2de8f735058b4')
     current_room = empty_room
     #dest_room = get_state('f1f131f647621a4be7c71292e79613f9')
-    dest_room = get_state('82c7359fcfb85833d5e759a56284e7f0')
+    dest_room = get_state('44dfaae131fa9d0a541c3eb790b57b00')
 
     #print(empty_room)
     #print(dest_room)
