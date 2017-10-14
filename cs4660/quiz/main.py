@@ -253,7 +253,6 @@ if __name__ == "__main__":
     graph = AdjacencyList()
     graph.add_node(current_room['id'])
     # ADD NODES TO GRAPH
-    loop = True
     for nodes in graph.adjacency_list.keys():
         for node in get_state(nodes)['neighbors']:
             graph.add_node(node['id'])
