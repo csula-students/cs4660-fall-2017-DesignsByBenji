@@ -73,20 +73,18 @@ def bfs(initial_node, dest_node):
             results.reverse()
             health = 50
             print("Total Health: " + str(health))
-            for index in range(len(results)):
+            for result in results:
                 node = get_state(initial_node)
-                next = results[index]['id']
+                next = result['id']
                 initial_name = node['location']['name']
-                dest_name = results[index]['action']
-                health += results[index]['event']['effect']
-                print(
-                initial_name + "(" + initial_node + "):" + dest_name  + "(" + results[index][
-                    'id'] + "):" + str(results[index]['event']['effect']))
+                dest_name = result['action']
+                health += result['event']['effect']
+                print(initial_name + "(" + initial_node + "):" + dest_name  + "(" + result['id'] + "):" + str(result['event']['effect']))
                 initial_node = next
             print("Health: " + str(health))
             return
-        for i in range(len(neighbors)):
-            neighbor = neighbors[i]['id']
+        for neighbor in neighbors:
+            neighbor = neighbor['id']
             if neighbor not in distances:
                 distances[neighbor] = distances[current]+1
                 parents[neighbor] = current
@@ -114,20 +112,18 @@ def djikstra(initial_node, dest_node):
             results.reverse()
             health = 50
             print("Total Health: " + str(health))
-            for index in range(len(results)):
+            for result in results:
                 node = get_state(initial_node)
-                next = results[index]['id']
+                next = result['id']
                 initial_name = node['location']['name']
-                dest_name = results[index]['action']
-                health += results[index]['event']['effect']
-                print(
-                initial_name + "(" + initial_node + "):" + dest_name  + "(" + results[index][
-                    'id'] + "):" + str(results[index]['event']['effect']))
+                dest_name = result['action']
+                health += result['event']['effect']
+                print(initial_name + "(" + initial_node + "):" + dest_name  + "(" + result['id'] + "):" + str(result['event']['effect']))
                 initial_node = next
             print("Health: " + str(health))
             return
-        for i in range(len(neighbors)):
-            neighbor = neighbors[i]['id']
+        for neighbor in neighbors:
+            neighbor = neighbor['id']
             edge = transition_state(current, neighbor)
             distance = distances[current] - edge['event']['effect']
             if (neighbor not in distances or distance < distances[neighbor]) and neighbor not in explored:
