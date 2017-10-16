@@ -134,8 +134,7 @@ if __name__ == "__main__":
     # Your code starts here
     start = '7f3dc077574c013d98b2de8f735058b4'
     destination = 'f1f131f647621a4be7c71292e79613f9'
-    health = 0
 print('Breadth First Search:')
-bfs(start, destination, health)
+bfs(start, destination)
 print('\nDjikstra Search:')
-djikstra(start, destination, health)
+djikstra(start, destination)
