@@ -54,7 +54,7 @@ def __json_request(target_url, body):
     response = json.load(reader(urlopen(req, jsondataasbytes)))
     return response
 
-def bfs(initial_node, dest_node):
+def bfs(initial_node, dest_node, health=0):
     results = []
     parents = {}
     distances = {initial_node : 0}
@@ -71,8 +71,6 @@ def bfs(initial_node, dest_node):
                 results.append(path[temp])
                 temp = parents[temp]
             results.reverse()
-            health = 50
-            print("Total Health: " + str(health))
             for result in results:
                 node = get_state(initial_node)
                 next = result['id']
@@ -81,7 +79,7 @@ def bfs(initial_node, dest_node):
                 health += result['event']['effect']
                 print(initial_name + "(" + initial_node + "):" + dest_name  + "(" + result['id'] + "):" + str(result['event']['effect']))
                 initial_node = next
-            print("Health: " + str(health))
+            print("Health Differential: " + str(health))
             return
         for neighbor in neighbors:
             neighbor = neighbor['id']
@@ -91,7 +89,7 @@ def bfs(initial_node, dest_node):
                 path[neighbor] = transition_state(current, neighbor)
                 the_queue.put(neighbor)
 
-def djikstra(initial_node, dest_node):
+def djikstra(initial_node, dest_node, health=0):
     results = []
     parents = {}
     distances = {initial_node : 0}
@@ -110,8 +108,6 @@ def djikstra(initial_node, dest_node):
                 results.append(path[temp])
                 temp = parents[temp]
             results.reverse()
-            health = 50
-            print("Total Health: " + str(health))
             for result in results:
                 node = get_state(initial_node)
                 next = result['id']
@@ -120,7 +116,7 @@ def djikstra(initial_node, dest_node):
                 health += result['event']['effect']
                 print(initial_name + "(" + initial_node + "):" + dest_name  + "(" + result['id'] + "):" + str(result['event']['effect']))
                 initial_node = next
-            print("Health: " + str(health))
+            print("Health Differential: " + str(health))
             return
         for neighbor in neighbors:
             neighbor = neighbor['id']
@@ -138,7 +134,8 @@ if __name__ == "__main__":
     # Your code starts here
     start = '7f3dc077574c013d98b2de8f735058b4'
     destination = 'f1f131f647621a4be7c71292e79613f9'
+    health = 0
 print('Breadth First Search:')
-bfs(start, destination)
+bfs(start, destination, health)
 print('\nDjikstra Search:')
-djikstra(start, destination)
+djikstra(start, destination, health)
