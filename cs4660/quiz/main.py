@@ -76,12 +76,15 @@ def bfs(initial_node, dest_node):
             for index in range(len(results)):
                 node = get_state(initial_node)
                 next = results[index]['id']
+                initial_name = node['location']['name']
+                dest_name = results[index]['action']
                 health += results[index]['event']['effect']
                 print(
-                node['location']['name'] + "(" + initial_node + "):" + results[index]['action'] + "(" + results[index][
+                initial_name + "(" + initial_node + "):" + dest_name  + "(" + results[index][
                     'id'] + "):" + str(results[index]['event']['effect']))
                 initial_node = next
             print("Health: " + str(health))
+            return
         for i in range(len(neighbors)):
             neighbor = neighbors[i]['id']
             if neighbor not in distances:
@@ -90,11 +93,56 @@ def bfs(initial_node, dest_node):
                 path[neighbor] = transition_state(current, neighbor)
                 the_queue.put(neighbor)
 
+def djikstra(initial_node, dest_node):
+    results = []
+    parents = {}
+    distances = {initial_node : 0}
+    path = {}
+    explored = []
+    the_queue = queue.PriorityQueue()
+    the_queue.put((0, initial_node))
 
+    while the_queue:
+        current = the_queue.get()[1]
+        explored.append(current)
+        neighbors = get_state(current)['neighbors']
+        if current == dest_node:
+            temp = dest_node
+            while temp in parents:
+                results.append(path[temp])
+                temp = parents[temp]
+            results.reverse()
+            health = 50
+            print("Total Health: " + str(health))
+            for index in range(len(results)):
+                node = get_state(initial_node)
+                next = results[index]['id']
+                initial_name = node['location']['name']
+                dest_name = results[index]['action']
+                health += results[index]['event']['effect']
+                print(
+                initial_name + "(" + initial_node + "):" + dest_name  + "(" + results[index][
+                    'id'] + "):" + str(results[index]['event']['effect']))
+                initial_node = next
+            print("Health: " + str(health))
+            return
+        for i in range(len(neighbors)):
+            neighbor = neighbors[i]['id']
+            edge = transition_state(current, neighbor)
+            distance = distances[current] - edge['event']['effect']
+            if (neighbor not in distances or distance < distances[neighbor]) and neighbor not in explored:
+                if neighbor in distances:
+                    the_queue.get(neighbor)
+                distances[neighbor] = distance
+                parents[neighbor] = current
+                path[neighbor] = edge
+                the_queue.put((distances[neighbor],neighbor))
 
 if __name__ == "__main__":
     # Your code starts here
-    empty_room = '7f3dc077574c013d98b2de8f735058b4'
-    hall_way = 'f1f131f647621a4be7c71292e79613f9'
-
-bfs(empty_room, hall_way)
+    start = '7f3dc077574c013d98b2de8f735058b4'
+    destination = 'f1f131f647621a4be7c71292e79613f9'
+print('Breadth First Search:')
+bfs(start, destination)
+print('\nDjikstra Search:')
+djikstra(start, destination)
