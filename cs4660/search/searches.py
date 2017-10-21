@@ -103,4 +103,36 @@ def a_star_search(graph, initial_node, dest_node):
     uses graph to do search from the initial_node to dest_node
     returns a list of actions going from the initial node to dest_node
     """
-    pass
+    distances = {initial_node : 0}
+    parents = {}
+    explored = {}
+    the_queue = queue.PriorityQueue()
+    the_queue.put((0, initial_node))
+    results = []
+    neighbor_dist = {initial_node: heuristic(initial_node, dest_node)}
+    while the_queue:
+        current = the_queue.get()[1]
+        if current not in explored:
+            if current == dest_node:
+                temp = dest_node
+                while temp != initial_node:
+                    results = [graphFunc.Edge(parents[temp], temp, graph.distance(parents[temp], temp))] + results
+                    temp = parents[temp]
+                return results
+            explored[current] = True
+
+            for neighbor in graph.neighbors(current):
+                if neighbor not in explored:
+                    if current in distances:
+                        real = 1 + distances[current]
+                    else:
+                        real = sys.maxsize
+                    parents[neighbor] = current
+                    distances[neighbor] = real
+                    neighbor_dist[neighbor] = distances[neighbor] + heuristic(neighbor, dest_node)
+                    the_queue.put((neighbor_dist[neighbor], neighbor))
+
+def heuristic(current, dest_node):
+    dx = abs(current.data.x - dest_node.data.x)
+    dy = abs(current.data.y - dest_node.data.y)
+    return ((dx*dx)+(dy*dy))**0.5
